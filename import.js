@@ -1,21 +1,21 @@
-module.exports = () => {
-    fs.readdir("./commands/", (err, files) => {
-        if (err) {
-            console.log(err);
-        }
+const fs = require("fs");
 
-        let cmdFiles = files.filter(f => f.split(".").pop() === "js");
+const commands = {};
+
+fs.readdir("./commands/", (err, files) => {
+    if (err) throw new Error(`コマンド読み込みでエラーが発生しました: \n${err}`);
+
+    files.filter(file => file.endsWith(".js"));
+
+    if (files.length === 0) return console.log("コマンドが見つかりませんでした。");
 
 
-        if (cmdFiles.length === 0) {
-            console.log("No files found");
-            return;
-        }
-
-        cmdFiles.forEach((f, i) => {
-            let props = require(`./cmds/${f}`);
-            console.log(`${i + 1}: ${f} 読み込み完了`);
-            client.commands.set(props.help.name, props);
-        })
+    commands.forEach((file, i) => {
+        if (!file.endsWith(".js")) return;
+        const command = require(`./commands/${file}`);
+        console.log(`${i + 1}: ${f} 読み込み完了`);
+        commands[command.name] = command;
     })
-}
+})
+
+module.exports = commands;

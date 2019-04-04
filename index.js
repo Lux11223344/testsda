@@ -13,17 +13,9 @@ const token = settings.token;
 const owner = settings.owner;
 
 
-//read command files
-
-
-
-client.on(`ready`, async () => {
-    console.log("こんにちは。準備中です。");
-
-
+client.on("ready", async () => {
+    console.log("Botを起動しました。");
 });
-
-
 
 
 client.on("message",message => {
