@@ -3,7 +3,7 @@ const client = new Discord.Client();
 
 const commands = require("./import.js");
 
-const settings = require("./settings.json")
+const settings = require("./settings.js")
 const prefix = settings.prefix;
 const token = settings.token;
 const owner = settings.owner;
