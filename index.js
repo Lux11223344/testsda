@@ -20,7 +20,6 @@ client.on("message", message => {
     if (!message.content.startsWith(prefix)) return;
 
     const name = message.content.slice(prefix.length).split(" ")[0];
-    console.log(name);
 
     const command = commands[name];
     if (command) {
