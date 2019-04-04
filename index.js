@@ -18,27 +18,17 @@ client.on("ready", async () => {
 });
 
 
-client.on("message",message => {
-    if (message.channel.type === "dm") return;
-    if (message.author.bot) return;
+client.on("message", message => {
+    if (!message.guild || message.author.bot) return;
+    if (!command.startsWith(prefix)) return;
 
-    let message_array = message.content.split(" ");
-    let command = message_array[0];
-    let args = message_array.slice(1);
+    const name = message.content.slice(prefix).split(" ")[0];
 
-    if(!command.startsWith(prefix)) return;
-
-    if (client.commands.get(command.slice(prefix.length))){
-        let cmd = client.commands.get(command.slice(prefix.length));
-        if (cmd){
-            cmd.run(client,message,args);
-        }
-
-
+    const command = commands[name];
+    if (command) {
+        command.run(client, message);
     }
-
-
 });
 
 
-  client.login(token);
+client.login(token);
