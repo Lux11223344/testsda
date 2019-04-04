@@ -10,10 +10,10 @@ fs.readdir("./commands/", (err, files) => {
     if (files.length === 0) return console.log("コマンドが見つかりませんでした。");
 
 
-    commands.forEach((file, i) => {
+    files.forEach((file, i) => {
         if (!file.endsWith(".js")) return;
         const command = require(`./commands/${file}`);
-        console.log(`${i + 1}: ${f} 読み込み完了`);
+        console.log(`${i + 1}: ${file} 読み込み完了`);
         commands[command.name] = command;
     })
 })

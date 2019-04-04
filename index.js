@@ -1,28 +1,26 @@
-// パッケージの読み込み
 const Discord = require("discord.js");
-const settings = require("./settings.json")
-const fs = require("fs");
-
-//initalise are client
 const client = new Discord.Client();
-client.commands = new Discord.Collection();
 
-//import client setting (data)
+const commands = require("./import.js");
+
+const settings = require("./settings.json")
 const prefix = settings.prefix;
 const token = settings.token;
 const owner = settings.owner;
 
 
-client.on("ready", async () => {
+client.on("ready", () => {
     console.log("Botを起動しました。");
 });
 
 
 client.on("message", message => {
-    if (!message.guild || message.author.bot) return;
-    if (!command.startsWith(prefix)) return;
+    if (!message.guild) return;
+    if (message.author.bot) return;
+    if (!message.content.startsWith(prefix)) return;
 
-    const name = message.content.slice(prefix).split(" ")[0];
+    const name = message.content.slice(prefix.length).split(" ")[0];
+    console.log(name);
 
     const command = commands[name];
     if (command) {
