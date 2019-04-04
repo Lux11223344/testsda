@@ -1,23 +1,20 @@
-//require packages
-const Discord = require('discord.js');
-const settings = require('./settings.json');
-const fs = require('fs');
+// パッケージの読み込み
+const Discord = require("discord.js");
+const settings = require("./settings.json")
+const fs = require("fs");
 
+//initalise are client
+const client = new Discord.Client();
+client.commands = new Discord.Collection();
 
-
-
-//initalise are bot
-const bot = new Discord.Client();
-bot.commands = new Discord.Collection();
-
-//import bot setting (data)
+//import client setting (data)
 const prefix = settings.prefix;
 const token = settings.token;
 const owner = settings.owner;
 
 
 //read command files
-fs.readdir('./cmds/', (err,files) => {
+fs.readdir("./cmds/", (err,files) => {
     if (err) {
         console.log(err);
     }
@@ -33,12 +30,12 @@ fs.readdir('./cmds/', (err,files) => {
     cmdFiles.forEach((f,i) => {
         let props = require(`./cmds/${f}`);
         console.log(`${i+1}: ${f} 読み込み完了`);
-        bot.commands.set(props.help.name, props);
+        client.commands.set(props.help.name, props);
     })
 })
 
 
-bot.on(`ready`, async () => {
+client.on(`ready`, async () => {
     console.log("こんにちは。準備中です。");
 
 
@@ -47,27 +44,27 @@ bot.on(`ready`, async () => {
 
 
 
-bot.on("message",msg => {
-    if (msg.channel.type === "dm") return;
-    if (msg.author.bot) return;
+client.on("message",message => {
+    if (message.channel.type === "dm") return;
+    if (message.author.bot) return;
 
-    let msg_array = msg.content.split(" ");
-    let command = msg_array[0];
-    let args = msg_array.slice(1);
+    let message_array = message.content.split(" ");
+    let command = message_array[0];
+    let args = message_array.slice(1);
 
     if(!command.startsWith(prefix)) return;
 
-    if (bot.commands.get(command.slice(prefix.length))){
-        let cmd = bot.commands.get(command.slice(prefix.length));
+    if (client.commands.get(command.slice(prefix.length))){
+        let cmd = client.commands.get(command.slice(prefix.length));
         if (cmd){
-            cmd.run(bot,msg,args);
+            cmd.run(client,message,args);
         }
 
 
-    }  
+    }
 
-    
+
 });
 
 
-  bot.login("token");
+  client.login(token);
